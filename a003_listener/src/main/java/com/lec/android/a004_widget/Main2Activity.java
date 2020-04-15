@@ -71,26 +71,28 @@ public class Main2Activity extends AppCompatActivity {
         num7.setOnClickListener(new Numberbtn("7"));
         num8.setOnClickListener(new Numberbtn("8"));
         num9.setOnClickListener(new Numberbtn("9"));
+        divide.setOnClickListener(new Numberbtn("÷"));
 
-        class Symbolbtn implements View.OnClickListener{
-            String sym;
-            public Symbolbtn(String symbol){ this.sym = symbol;}
-
-            @Override
-            public void onClick(View v) {
-                answer.setText(et.getText().append(sym));
-            }
-
-        } // Symbolbtn
-
-        divide.setOnClickListener(new Symbolbtn("÷"));
-        multiply.setOnClickListener(new Symbolbtn("×"));
-        difference.setOnClickListener(new Symbolbtn("－"));
-        sum.setOnClickListener(new Symbolbtn("+"));
+//        class Symbolbtn implements View.OnClickListener{
+//            String sym;
+//            public Symbolbtn(String symbol){ this.sym = symbol;}
+//
+//            @Override
+//            public void onClick(View v) {
+//                answer.setText(et.getText().append(sym));
+//            }
+//
+//        } // Symbolbtn
+//
+//        divide.setOnClickListener(new Symbolbtn("÷"));
+//        multiply.setOnClickListener(new Symbolbtn("×"));
+//        difference.setOnClickListener(new Symbolbtn("－"));
+//        sum.setOnClickListener(new Symbolbtn("+"));
 
         divide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                et.setText(et.getText().append("÷"));
                 String[] num = (et.getText().toString().split("÷"));
                 for(int i = 0; i < num.length; i++){
                     result = 0;
@@ -102,6 +104,7 @@ public class Main2Activity extends AppCompatActivity {
         sum.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                et.setText(et.getText().append("＋"));
                 String[] num = (et.getText().toString().split("＋"));
                 for(int i = 0; i < num.length; i++){
                     result = 0;
@@ -136,7 +139,8 @@ public class Main2Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.d("d", String.valueOf(result));
-                answer.setText(result);
+                String result1 = String.format("%d", result);
+                answer.setText(result1);
             }
         });
 
