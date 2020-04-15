@@ -8,23 +8,23 @@
     android:orientation="vertical"
     tools:context="com.lec.android.a003_listener.Main2Activity">
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Calculator"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        android:textColor="#FFFFFF" />
-
     <EditText
-        android:id="@+id/editText3"
+        android:id="@+id/et"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="200dp"
         android:ems="10"
         android:gravity="center|right"
-        android:inputType="textPersonName"
-        android:text="Name"
+        android:inputType="none"
+        android:text=""
         android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+        android:textColor="#FFFFFF" />
+
+    <TextView
+        android:id="@+id/answer"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:gravity="center|right"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display3"
         android:textColor="#FFFFFF" />
 
     <TableLayout
@@ -44,7 +44,7 @@
                 android:layout_weight="1"
                 android:background="#000000"
                 android:text="7"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display3"
                 android:textColor="#FFFFFF" />
 
             <Button
@@ -54,7 +54,7 @@
                 android:layout_weight="1"
                 android:background="#000000"
                 android:text="8"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display3"
                 android:textColor="#FFFFFF" />
 
             <Button
@@ -64,7 +64,7 @@
                 android:layout_weight="1"
                 android:background="#000000"
                 android:text="9"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display3"
                 android:textColor="#FFFFFF" />
 
             <Button
@@ -74,7 +74,8 @@
                 android:layout_weight="1"
                 android:background="#000000"
                 android:text="÷"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+                android:onClick="operattion"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display3"
                 android:textColor="#FFFFFF" />
         </TableRow>
 
@@ -89,7 +90,7 @@
                 android:layout_weight="1"
                 android:background="#000000"
                 android:text="4"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display3"
                 android:textColor="#FFFFFF" />
 
             <Button
@@ -99,7 +100,7 @@
                 android:layout_weight="1"
                 android:background="#000000"
                 android:text="5"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display3"
                 android:textColor="#FFFFFF" />
 
             <Button
@@ -109,7 +110,7 @@
                 android:layout_weight="1"
                 android:background="#000000"
                 android:text="6"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display3"
                 android:textColor="#FFFFFF" />
 
             <Button
@@ -119,7 +120,8 @@
                 android:layout_weight="1"
                 android:background="#000000"
                 android:text="×"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+                android:onClick="operation"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display3"
                 android:textColor="#FFFFFF" />
         </TableRow>
 
@@ -134,7 +136,7 @@
                 android:layout_weight="1"
                 android:background="#000000"
                 android:text="1"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display3"
                 android:textColor="#FFFFFF" />
 
             <Button
@@ -144,7 +146,7 @@
                 android:layout_weight="1"
                 android:background="#000000"
                 android:text="2"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display3"
                 android:textColor="#FFFFFF" />
 
             <Button
@@ -154,7 +156,7 @@
                 android:layout_weight="1"
                 android:background="#000000"
                 android:text="3"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display3"
                 android:textColor="#FFFFFF" />
 
             <Button
@@ -163,8 +165,9 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#000000"
-                android:text="ㅡ"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+                android:text="-"
+                android:onClick="operation"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display3"
                 android:textColor="#FFFFFF" />
         </TableRow>
 
@@ -179,7 +182,8 @@
                 android:layout_weight="1"
                 android:background="#000000"
                 android:text="C"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+                android:onClick="operation"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display3"
                 android:textColor="#FFFFFF" />
 
             <Button
@@ -189,7 +193,7 @@
                 android:layout_weight="1"
                 android:background="#000000"
                 android:text="0"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display3"
                 android:textColor="#FFFFFF" />
 
             <Button
@@ -199,7 +203,8 @@
                 android:layout_weight="1"
                 android:background="#000000"
                 android:text="="
-                android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+                android:onClick="operation"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display3"
                 android:textColor="#FFFFFF" />
 
             <Button
@@ -209,7 +214,8 @@
                 android:layout_weight="1"
                 android:background="#000000"
                 android:text="＋"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+                android:onClick="operation"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display3"
                 android:textColor="#FFFFFF" />
         </TableRow>
     </TableLayout>
