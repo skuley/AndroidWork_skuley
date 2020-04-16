@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,9 +19,6 @@ import java.net.URL;
  *      1. 권한을 획득한다 (인터넷에 접근할수 있는 권한을 획득한다)  - 메니페스트 파일
  *      2. Thread 에서 웹의 이미지를 받아온다 - honeycomb(3.0) 버젼 부터 바뀜
  *      3. 외부쓰레드에서 메인 UI에 접근하려면 Handler 를 사용해야 한다.
- *
- *
- *
  */
 
 
@@ -31,6 +29,7 @@ public class Main4Activity extends AppCompatActivity {
 
     ImageView iv1;
     TextView tvUrl;
+    Handler handler = new Handler(); // 외부 쓰레드에서 메인 UI 화면에 그릴대 사용
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,19 +39,40 @@ public class Main4Activity extends AppCompatActivity {
         iv1 = findViewById(R.id.iv1);
         tvUrl = findViewById(R.id.tvUrl);
 
-        // Bitmap <- InputStream <- URL <- "url"
-        try {
-            URL url = new URL(imgUrl);
-            // android.os.NetworkOnMainThreadException
-            // 안드로이드에서는 메인 쓰레드에서 실행이 안됌
-            InputStream in = url.openStream();
-            Bitmap bm = BitmapFactory.decodeStream(in);
+        // Thread 별도로 만들어 실행시켜주기
+        // Thread t = new Thread(Runnable);
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                // Bitmap <- InputStream <- URL <- "url"
+                try {
+                    // thread 없이 수행하면
+                    // android.os.NetworkOnMainThreadException
+                    // 안드로이드에서는 메인 쓰레드에서 실행이 안됌
+                    URL url = new URL(imgUrl);
+                    InputStream in = url.openStream();
+                    final Bitmap bm = BitmapFactory.decodeStream(in);
 
-            iv1.setImageBitmap(bm);
+                    // Handler 없이 사용하면
+                    // CalledFromWrongThreadException: Only the original thread that created a view hierarchy can touch its views.
+                    // iv1.setImageBitmap(bm);
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            iv1.setImageBitmap(bm);
+                            tvUrl.setText(imgUrl);
+                        }
+                    });
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        t.start();
+
+
 
     } // onCreate()
 }
