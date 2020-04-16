@@ -1,13 +1,23 @@
 package com.lec.android.a005_image;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.util.Arrays;
 
 /**
  * 폰의 저장장치에 있는 사진을 ImageView 에 띄우기
@@ -29,7 +39,12 @@ public class Main3Activity extends AppCompatActivity {
     // img 경로
     // Pixel 폰 : 이미지 보기 -> 하단의 i 버튼
     // Samsung 폰 : 갤러리 이미지 롱클릭 후 상세정보
-    private String imgPath = "/storage/emulated/0/DCIM/Camera/saudi_arabia.png";
+    private String imgPath = "/sdcard/DCIM/Camera/saudi_arabia.png";
+    private final int PERMISSION_REQUEST_CODE = 101; // 권한 요청 코드값(int)
+    private final String [] PERMISSIONS = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };// 요청할 권한들을 String[] 로 준비
 
     ImageView ivPhoto;
     TextView tvPath;
@@ -44,7 +59,28 @@ public class Main3Activity extends AppCompatActivity {
         btnAction = findViewById(R.id.btnAction);
         tvPath = findViewById(R.id.tvPath);
 
-        btnAction.setOnClickListener(new );
+        btnAction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawPhoto();
+            }
+        });
+
+        // 위험권한 획득
+        // API 23 이상에서만 권한요청 (마시멜로)
+        // 권한을 획득하지 않은 상태에서만 요청
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)) {
+            // 권한 요청 : 비동기로 진행됨.
+            ActivityCompat.requestPermissions(this,
+                    PERMISSIONS, // 요청할 위험권한(들)
+                    PERMISSION_REQUEST_CODE); // 권한 요청 코드드            );
+
+
+            } else{
+            // 권한을 이미 획득한 상태
+            drawPhoto();
+        }
+
 
     } // onCreate
 
@@ -53,5 +89,27 @@ public class Main3Activity extends AppCompatActivity {
         Bitmap bm = BitmapFactory.decodeFile(imgPath);
         ivPhoto.setImageBitmap(bm);
         tvPath.setText(imgPath);
+    } // drawPhoto()
+
+    // 권한 획득 결과 처리 콜백
+    // requestCode : 권한 요청 코드값 (int)
+    // permissions : 권한 요청 (들)
+    // grantResult : 승인 내역(들)
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode){
+            case PERMISSION_REQUEST_CODE:
+                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    // 사용자가 권한 승인 O
+                    Log.d("myapp", "권한획득결과\n\t" + Arrays.toString(permissions) + " : " + Arrays.toString(grantResults));
+                } else{
+                    // 사용자가 권한 승인 X
+
+                }
+
+                break;
+        }
+
     }
 }
