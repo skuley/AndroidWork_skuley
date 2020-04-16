@@ -104,7 +104,7 @@ public class Main2Activity extends AppCompatActivity {
         sum.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                et.setText(et.getText().append("＋"));
+                et.setText(et.getText().append(" ＋ "));
                 String[] num = (et.getText().toString().split("＋"));
                 for(int i = 0; i < num.length; i++){
                     result = 0;
