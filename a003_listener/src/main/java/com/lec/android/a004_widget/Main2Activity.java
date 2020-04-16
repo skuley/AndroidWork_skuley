@@ -140,7 +140,7 @@ public class Main2Activity extends AppCompatActivity {
             public void onClick(View v) {
                 Log.d("d", String.valueOf(result));
                 String result1 = String.format("%d", result);
-                answer.setText(result1);
+                answer.setText(result1 + "");
             }
         });
 
