@@ -1,10 +1,16 @@
 package com.lec.android.a008_recycler;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
+import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,10 +28,14 @@ public class PhonebookAdapter extends RecyclerView.Adapter<PhonebookAdapter.View
     // 본 예제에서는 Adapter 안에 직접 데이터를 다루어보겠습니다
     List<Phonebook> items = new ArrayList<Phonebook>();
 
-    // Adapter 기본 생성자
+
+    static PhonebookAdapter adapter;
+        // Adapter 기본 생성자
     // Adapter 객체 정의
     // 데이터(Phonebook) 를 받아서 각 Item 별로 View 를 생성하는 역할
-    public PhonebookAdapter() {    }
+    public PhonebookAdapter() { this.adapter = this;   }
+
+
 
 
     // onCreateViewHolder() : ViewHolder 가 생성될때 호출됨
@@ -76,6 +86,8 @@ public class PhonebookAdapter extends RecyclerView.Adapter<PhonebookAdapter.View
         // ViewHolder 에 담긴 각가의 View 들을 담을 변수
         ImageView ivPhoto;
         TextView tvName, tvPhone, tvEmail;
+        ImageButton btnDelItem;
+        Switch swOnOff;
 
         // 생성자 필수!
         public ViewHolder(@NonNull View itemView) { // item 레이아수의 View 객체가 전달됨
@@ -86,6 +98,49 @@ public class PhonebookAdapter extends RecyclerView.Adapter<PhonebookAdapter.View
             tvName = itemView.findViewById(R.id.tvName);
             tvPhone = itemView.findViewById(R.id.tvPhone);
             tvEmail = itemView.findViewById(R.id.tvEmail);
+
+            btnDelItem = itemView.findViewById(R.id.btnDelItem);
+            swOnOff = itemView.findViewById(R.id.swOnOff);
+
+            // 클릭리스너 장착
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition(); // 이 리스너가 장착된 item의 리스트상의 position 값
+                    // 아이템을 클릭하면 해당 세부 정보 액티비티로 넘겨주기
+                    Intent intent = new Intent(v.getContext(), PhonebookDetail.class);
+                    intent.putExtra("pb", adapter.getItem(position));
+                    v.getContext().startActivity(intent);
+                }
+            });
+
+            // itemView 안에 있는 버튼 리스터 장착
+            // 삭제버튼 누르면 item 삭제되게 하기
+            btnDelItem.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // position 정보 필요하다
+                    int position = getAdapterPosition();
+                    adapter.removeItem(getAdapterPosition()); // 데이터 삭제
+                    // 데이터 변경 (수정, 삭제, 추가) 내역이 adapter 에 반영되어야 정상적으로 동작함 !! ★☆★
+                    adapter.notifyDataSetChanged();
+
+                }
+            });
+
+            // switch를 누르면 전화번호, 이메일 숨기기/ 보이기
+            swOnOff.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() { // 값이 변경 되었을때
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if(isChecked){
+                        tvPhone.setVisibility(View.INVISIBLE);
+                        tvEmail.setVisibility(View.INVISIBLE);
+                    } else{
+                        tvPhone.setVisibility(View.VISIBLE);
+                        tvEmail.setVisibility(View.VISIBLE);
+                    }
+                }
+            });
 
         } // ViewHolder
 
