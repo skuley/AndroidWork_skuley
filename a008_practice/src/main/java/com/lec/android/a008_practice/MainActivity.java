@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     } // onCreate()
 
     protected void insertData(View v){
-        adapter.addItem();
+        adapter.addProfile(new DogProfile(getprofile));
     }
 
 } // MainActivity
