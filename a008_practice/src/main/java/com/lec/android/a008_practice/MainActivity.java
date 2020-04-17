@@ -32,12 +32,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // TODO
-                // insert 버튼을 눌렀을 경우, 데이터를 list에 담기
+                // insert 버튼을 눌렀을 경우, 데이터를 adapter에 담기
 
             }
         });
 
 
     } // onCreate()
+
+    protected void insertData(View v){
+        adapter.addItem();
+    }
 
 } // MainActivity
