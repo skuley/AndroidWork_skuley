@@ -43,9 +43,27 @@ public class Main2Activity extends AppCompatActivity {
 
                 // 데이터를 Intent에 실어서 보내기
                 // name : 데이터 형태로 보냄
-                // TODO
+                intent.putExtra("num", 3);
+                intent.putExtra("num2", 7);
+                intent.putExtra("long", 33L);
+                intent.putExtra("msg", "안녕하세요");
+
+                // 이름 나이 --> Person 에 담은뒤 Intent 에 실어 보내기
+                Person p = new Person(
+                    etName.getText().toString(),
+                    Integer.parseInt(etAge.getText().toString())
+                    );
+                intent.putExtra("Person", p);
 
                 startActivity(intent);
+            }
+        });
+
+        Button btnFinish = findViewById(R.id.btnFinish);
+        btnFinish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish(); // 액티비티 종료
             }
         });
 
