@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // TODO
                 // insert 버튼을 눌렀을 경우, 데이터를 adapter에 담기
-
+                adapter.addProfile();
             }
         });
 

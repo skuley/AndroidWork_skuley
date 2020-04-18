@@ -7,6 +7,11 @@ public class DogAdapter {
 
     List<DogProfile> profile = new ArrayList<DogProfile>();
 
+
+
+
+
+
     // 데이터를 다루기 위한 메소드들
     // ArrayList 의 메소드들 사용
     public void addProfile(DogProfile p){ profile.add(p);}
