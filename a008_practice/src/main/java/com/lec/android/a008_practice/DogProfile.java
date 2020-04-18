@@ -2,25 +2,25 @@ package com.lec.android.a008_practice;
 
 public class DogProfile {
 
-    String image;
+    int image;
     String name;
     int age;
     boolean sex;
 
     public DogProfile(String name) {    }
 
-    public DogProfile(String image, String name, int age, boolean sex) {
+    public DogProfile(int image, String name, int age, boolean sex) {
         this.image = image;
         this.name = name;
         this.age = age;
         this.sex = sex;
     }
 
-    public String getImage() {
+    public int getImage() {
         return image;
     }
 
-    public void setImage(String image) {
+    public void setImage(int image) {
         this.image = image;
     }
 
