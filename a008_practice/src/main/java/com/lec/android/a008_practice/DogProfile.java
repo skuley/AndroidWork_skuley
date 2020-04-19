@@ -1,28 +1,22 @@
 package com.lec.android.a008_practice;
 
+import android.widget.EditText;
+import android.widget.RadioGroup;
+
 public class DogProfile {
 
-    int image;
     String name;
     int age;
-    boolean sex;
+    String sex;
 
     public DogProfile(String name) {    }
 
-    public DogProfile(int image, String name, int age, boolean sex) {
-        this.image = image;
+    public DogProfile(int image, String name, int age, String sex) {
         this.name = name;
         this.age = age;
         this.sex = sex;
     }
 
-    public int getImage() {
-        return image;
-    }
-
-    public void setImage(int image) {
-        this.image = image;
-    }
 
     public String getName() {
         return name;
@@ -40,11 +34,12 @@ public class DogProfile {
         this.age = age;
     }
 
-    public boolean isSex() {
+    public String getSex() {
         return sex;
     }
 
-    public void setSex(boolean sex) {
+    public void setSex(String sex) {
         this.sex = sex;
     }
+
 }
