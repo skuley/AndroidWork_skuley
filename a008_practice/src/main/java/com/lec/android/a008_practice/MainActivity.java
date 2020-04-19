@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 public class MainActivity extends AppCompatActivity {
@@ -16,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
     EditText etName, etAge;
     RadioGroup rgSex;
     RecyclerView rv;
+    RadioButton rbMale, rbFemale;
 
     DogAdapter adapter;
 
@@ -29,16 +31,13 @@ public class MainActivity extends AppCompatActivity {
         etAge = findViewById(R.id.etAge);
         rgSex = findViewById(R.id.rgSex);
 
+
         btnInsert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // TODO
                 // insert 버튼을 눌렀을 경우, 데이터를 adapter에 담기
-                for(int i = 0; i < 10; i++){
-                    int idx = D.next();
-                    adapter.addProfile(new DogProfile(etName, etAge, rgSex));
-                }
-
+                insertData(v);
             }
         });
 
@@ -46,7 +45,10 @@ public class MainActivity extends AppCompatActivity {
     } // onCreate()
 
     protected void insertData(View v){
-        adapter.setProfiles(new DogProfile(etName, etAge, rgSex));
+        int id = rgSex.getCheckedRadioButtonId();
+        RadioButton rb = findViewById(id);
+        adapter.addProfile(0, new DogProfile(etName.getText().toString(), etAge.getText().toString(), rb.getText().toString()));
+        adapter.notifyDataSetChanged();
     }
 
 } // MainActivity

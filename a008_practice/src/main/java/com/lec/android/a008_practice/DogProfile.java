@@ -6,16 +6,17 @@ import android.widget.RadioGroup;
 public class DogProfile {
 
     String name;
-    int age;
+    String age;
     String sex;
 
     public DogProfile(String name) {    }
 
-    public DogProfile(int image, String name, int age, String sex) {
+    public DogProfile(String name, String age, String sex) {
         this.name = name;
         this.age = age;
         this.sex = sex;
     }
+
 
 
     public String getName() {
@@ -26,11 +27,11 @@ public class DogProfile {
         this.name = name;
     }
 
-    public int getAge() {
+    public String getAge() {
         return age;
     }
 
-    public void setAge(int age) {
+    public void setAge(String age) {
         this.age = age;
     }
 
