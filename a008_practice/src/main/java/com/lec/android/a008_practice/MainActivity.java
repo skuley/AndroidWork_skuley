@@ -1,6 +1,7 @@
 package com.lec.android.a008_practice;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
@@ -21,10 +22,18 @@ public class MainActivity extends AppCompatActivity {
 
     DogAdapter adapter;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        rv = findViewById(R.id.rv);
+        rv.setLayoutManager(layoutManager);
+        adapter = new DogAdapter();
+        rv.setAdapter(adapter);
 
         btnInsert = findViewById(R.id.btnInsert);
         etName = findViewById(R.id.etName);
