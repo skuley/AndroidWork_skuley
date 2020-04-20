@@ -22,9 +22,8 @@ import android.widget.Toast;
 // Handler 사용
 public class Main4Activity extends AppCompatActivity {
 
-    TextView tvResult1, tvResult2, tvResult3, tvResult4;
-    int backValue = 0;
-    int value3, value4;
+    TextView tvResult1, tvResult2, tvResult3, tvResult4, tvResult5;
+    int value1, value2, value3, value4, value5;
     Handler mhandler2, mhandler3;
 
     @Override
@@ -36,6 +35,7 @@ public class Main4Activity extends AppCompatActivity {
         tvResult2 = findViewById(R.id.tvResult2);
         tvResult3 = findViewById(R.id.tvResult3);
         tvResult4 = findViewById(R.id.tvResult4);
+        tvResult5 = findViewById(R.id.tvResult5);
 
 
         // 방법3:
@@ -73,28 +73,16 @@ public class Main4Activity extends AppCompatActivity {
         
     } // onCreate()
 
-    class BackThread extends Thread{
-        Handler handler;
-        BackThread(Handler handler) {this.handler = handler;}
-        @Override
-        public void run() {
-            backValue++;
-            while(backValue == 10){
-                Message msg = new Message();
-                msg.what = 0;
-                msg.arg1 = backValue;
 
-
-            }
-        }
-    }
 
     Handler handler = new Handler(){
         @Override
         public void handleMessage(@NonNull Message msg) {
-            if(msg.what == 1){
-                tvResult1.setText("결과창1: " + backValue);
+            value1++;
+            tvResult1.setText("Value1 : " + value1);
 
+            if(value1 < 10){
+                handler.sendEmptyMessageDelayed(0, 1000);
             }
         }
     };

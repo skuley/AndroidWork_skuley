@@ -50,7 +50,7 @@ public class Main5Activity extends AppCompatActivity {
         backgroundTask.execute(100);
 
         Log.d("myapp", "POST !!"); // <-- 과연 언제 찍힐까?
-        //
+
     } // onCreate()
 
     // AsyncTask<Params, Progress, Result>
