@@ -41,6 +41,7 @@ public class Main2Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 showAlert(DIALOG_TEXT);
+                Toast.makeText(Main2Activity.this, "???", Toast.LENGTH_SHORT).show();
 
             }
         });

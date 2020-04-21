@@ -62,7 +62,7 @@ public class Main3Activity extends AppCompatActivity {
                         new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                                Toast.makeText(getApplicationContext(), hourOfDay + "시" + minute + "분 선택", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Main3Activity.this, hourOfDay + "시" + minute + "분 선택", Toast.LENGTH_SHORT).show();
                             }
                         },
                         10, 50, false

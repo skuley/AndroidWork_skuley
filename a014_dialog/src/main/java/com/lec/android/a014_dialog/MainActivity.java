@@ -86,8 +86,6 @@ public class MainActivity extends AppCompatActivity {
 
     } // onCreate()
 
-
-
     public void showDialog1(View v){
         dlg1.show(); // 다이얼로그 띄우기
     }
