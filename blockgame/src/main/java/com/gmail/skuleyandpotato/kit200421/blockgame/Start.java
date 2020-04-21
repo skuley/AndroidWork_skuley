@@ -1,8 +1,10 @@
 package com.gmail.skuleyandpotato.kit200421.blockgame;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.os.Bundle;
@@ -51,8 +53,40 @@ public class Start extends AppCompatActivity implements View.OnClickListener {
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    // TODO
-                }
+                    if(time >= 0){
+                        tvTime.setText("시간: " + time);
+                        if(time > 0){
+                            time--; // 1초 감소, 1초후에 다시 run() 수행
+                            handler.postDelayed(this, 1000);
+                        } else{
+                            // time = 0 이 된 경우
+                            // TODO dialog 띄울때 팝업창 다른쪽 클릭하면 실행 안돼게 하기
+                            AlertDialog.Builder builder = new AlertDialog.Builder(Start.this);
+                            builder.setTitle("타임아웃")
+                                    .setMessage("점수 : " + point)
+                                    .setNegativeButton("그만하기", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            finish(); // 현재 화면 종료. 메인화면으로 가기
+                                        }
+                                    })
+                                    .setPositiveButton("다시하기", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    // 게임 리셋하고, 새 게임 시작
+                                                    time = 30;
+                                                    point = 0;
+                                                    tvTime.setText("시간: " + time);
+                                                    tvPoint.setText("점수: " + point);
+                                                    new GameThread().start(); // 새로운 게임 시작
+                                                }
+                                            }
+                                    )
+                                    .setCancelable(false);
+                            builder.show();
+                        } // else time == 0
+                    } // time >= 0
+                } // Runnable run()
             }, 1000); // 1초후에 시간표시
 
         } // run()
@@ -106,13 +140,66 @@ public class Start extends AppCompatActivity implements View.OnClickListener {
         ivBluee.setOnClickListener(this);
 
         // 시간표시, 게임진행 쓰레드 시작하기
-        // TODO
+        new GameThread().start();
 
     } // onCreate()
 
     @Override
     public void onClick(View v) {
-        // TODO
+        // 버튼을 눌렀을때 호출되는 콜백
+        // 블럭과 같은 색깔의 버튼이 눌렸는지 판별, 같은 블럭이면 이미지 블럭 한칸씩 내려오기
+        boolean isOk = false; // 맞추었는지 판별 결과 멤버변수
+
+        ImageView imageView = (ImageView) v;
+
+        switch (imageView.getId()){
+            // 맨 아래 블럭 ImageView 의 색상과 일치하는 버튼인지 판정
+            case R.id.ivRed: // 빨강버튼 클릭시
+                if("0".equals(iv[7].getTag().toString())) isOk = true; // 맨 마지막 블럭이 빨간색이면 isOk = true  / 빨강블럭의 tag값 "0"
+                break;
+
+            case R.id.ivGreen: // 초록버튼 클릭시
+                if("1".equals(iv[7].getTag().toString())) isOk = true; // 맨 마지막 블럭이 초록색이면 isOk = true  / 초록블럭의 tag값 "1"
+                break;
+
+            case R.id.ivBlue: // 파랑버튼 클릭시
+                if("2".equals(iv[7].getTag().toString())) isOk = true; // 맨 마지막 블럭이 파랑색이면 isOk = true  / 파랑블럭의 tag값 "2"
+                break;
+        } //switch
+        if(isOk) { // 버튼 색깔을 맞추었다면!
+
+            // TODO 다시 볼것
+            // 위의 7개 블럭을 한칸 아래로 이동 --> i -> i + 1
+            for(int i = iv.length -2; i >= 0; i--){
+                int num = Integer.parseInt(iv[i].getTag().toString()); // "0", "1", "2"
+                iv[i + 1].setImageResource(img[num]); // i 아래쪽 블럭 이미지 업데이트
+                iv[i + 1].setTag(num + "");
+            }
+
+            // 가장 위의 블럭 ImageView 는 랜덤으로 생성
+            int num = new Random().nextInt(3); // 0 ~ 2
+            iv[0].setImageResource(img[num]);
+            iv[0].setTag(num + "");
+
+            // 진동 & 음향
+            vibrator.vibrate(200);
+            soundPool.play(soundID_OK, 1, 1, 0, 0, 1);
+
+            // 점수 올리기
+            point++;
+            tvPoint.setText("점수: " + point);
+
+        } else { // 버튼 색깔이 틀리다면!
+
+            // 진동 & 음향
+            vibrator.vibrate(new long[] {20, 80, 20, 80, 20, 80}, -1);
+            soundPool.play(soundID_Error, 1, 1, 0, 0, 1);
+
+            // 점수 내리기
+            point--;
+            tvPoint.setText("점수: " + point);
+
+        }
     }
 
     @Override
