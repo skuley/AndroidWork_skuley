@@ -62,7 +62,7 @@ public class Main2Activity extends AppCompatActivity {
         btnMultiChoice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showAlert(DIALOG_MULTICHOICE);
+                showAlert(DIALOG_MULTICHOICE); 
             }
         });
 
