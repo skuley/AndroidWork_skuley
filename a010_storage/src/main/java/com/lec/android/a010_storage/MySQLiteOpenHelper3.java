@@ -39,4 +39,6 @@ public class MySQLiteOpenHelper3 extends SQLiteOpenHelper {
         db.execSQL(sql);
         onCreate(db); // 다시 테이블 생성
     }
+
+
 }

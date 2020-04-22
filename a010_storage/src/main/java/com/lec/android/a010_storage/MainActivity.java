@@ -18,21 +18,21 @@ import java.io.PrintWriter;
 
 /**
  * 안드로이드 에서 자료를 저장하는 4가지 수단
- *      1. 내부파일 사용 (Internal Storage) : '앱 데이터' 저장 영역
- *      2. 외부메모리 사용 (External Storage) : 사진, 동영상등 '사용자 영역'
- *      3. SQLite  (내장 DataBase)
- *      4. SharedPreference
- *
- *      ** 외부에 (서버, 네트워크, 외부 DB) 사용이 아닌 내부 저장수단
- *
- *      https://developer.android.com/training/data-storage
- *
- *  내부 파일 사용 (Internal Storage, App-specific storage)
- *      - 앱 데이터가 저장되는 영역
- *      - 별도의 permission 없이 사용 가능
- *      - 자신의 앱에서만 사용 가능, 다른 앱에서 접근 못함
- *      - 앱 제거시, Internal Storage 영역의 모든 데이터도 제거됨.
- *      - openFileOutput() 를 사용하여 저장  (  FileOutputStream 객체 리턴함 )
+ * 1. 내부파일 사용 (Internal Storage) : '앱 데이터' 저장 영역
+ * 2. 외부메모리 사용 (External Storage) : 사진, 동영상등 '사용자 영역'
+ * 3. SQLite  (내장 DataBase)
+ * 4. SharedPreference
+ * <p>
+ * ** 외부에 (서버, 네트워크, 외부 DB) 사용이 아닌 내부 저장수단
+ * <p>
+ * https://developer.android.com/training/data-storage
+ * <p>
+ * 내부 파일 사용 (Internal Storage, App-specific storage)
+ * - 앱 데이터가 저장되는 영역
+ * - 별도의 permission 없이 사용 가능
+ * - 자신의 앱에서만 사용 가능, 다른 앱에서 접근 못함
+ * - 앱 제거시, Internal Storage 영역의 모든 데이터도 제거됨.
+ * - openFileOutput() 를 사용하여 저장  (  FileOutputStream 객체 리턴함 )
  */
 
 // Device File Explorer 에서 생성된 파일 확인 가능
@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
                 // openFileOutput 을 사용하여 OutputStream 객체 뽑아내기
                 try {
-                   fos = openFileOutput("myfile.txt", MODE_APPEND);
+                    fos = openFileOutput("myfile.txt", MODE_APPEND);
                     PrintWriter out = new PrintWriter(fos); //
                     // Reader 나 Writer로 끝나면 String 타입으로 리턴
                     // Stream으로 끝나면 byte 타입으로 리턴
@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
                     BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
                     StringBuffer data = new StringBuffer();
                     String str = reader.readLine(); // 파일에서 한줄씩 읽어오기
-                    while(str != null){
+                    while (str != null) {
                         data.append(str + "\n");
                         str = reader.readLine();
                     } // while()
