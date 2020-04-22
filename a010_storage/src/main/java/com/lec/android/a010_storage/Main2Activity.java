@@ -99,7 +99,7 @@ public class Main2Activity extends AppCompatActivity {
                 if(!checkExternalStorage()) return; // 외부 메모리 권한 없어? 그럼 나가!!
                 try {
                     File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-                    File f = new File(path, "exteranl.txt");
+                    File f = new File(path, "external.txt");
                     BufferedReader reader = new BufferedReader(new FileReader(f));
                     StringBuffer data = new StringBuffer();
                     String str = reader.readLine();
