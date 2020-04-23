@@ -66,8 +66,6 @@ public class Main2Activity extends AppCompatActivity {
 
         tvResult = findViewById(R.id.tvResult);
         btnLocate = findViewById(R.id.btnLocate);
-        manager = null;
-        MyListener mLocationListener = null;
 
         // 위험 권한 획득
         if (Build.VERSION.SDK_INT >= 23) {
@@ -96,13 +94,13 @@ public class Main2Activity extends AppCompatActivity {
                             tvResult.setText("최근위치\n" + locationInfo(location));
                         }
 
-                        mananger.requestLocationUpdates(
+                        manager.requestLocationUpdates(
                                 LocationManager.GPS_PROVIDER, // 등록할 위치제공자
                                 100,  // 통지사이의 최소 시간간격
                                 1, // 통지사이의 최소 변경거리 (m)
                                 mLocationListener); // LocationListener
 
-                        mananger.requestLocationUpdates(
+                        manager.requestLocationUpdates(
                                 LocationManager.NETWORK_PROVIDER, // 등록할 위치제공자
                                 100,  // 통지사이의 최소 시간간격
                                 1, // 통지사이의 최소 변경거리 (m)
@@ -117,6 +115,7 @@ public class Main2Activity extends AppCompatActivity {
                     // 위치정보 수신 종료
                     manager.removeUpdates(mLocationListener);
                 }
+
             }
 
 
@@ -126,7 +125,6 @@ public class Main2Activity extends AppCompatActivity {
     // LocationListener 로부터 전달되는 위치정보를 받기위해 정의/ ...위치권한을 받아왔을때 마다 구현해주는
     // LocationListener 구현
     class MyListener implements LocationListener {
-
 
         // 위치가 변경(확인) 되었을때 마다다 호출
         // 위치값은 Location 형태로 전달.
