@@ -2,6 +2,8 @@ package com.example.a015_web;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -39,6 +41,16 @@ public class Main2Activity extends AppCompatActivity {
                 wv.loadUrl(url); // 읽어올 웹페이지 url 로 읽어오기
                 wv.setWebChromeClient(new WebChromeClient()); // 안하면 (javascript에 있는 팝업창같은게 있는데) alert() 같은 알림창 안뜸.
                 wv.setWebViewClient(new WebViewClient()); // 안하면 웹페이지 (html) 내부에서 다른 페이지로 이동 불가
+            }
+        });
+
+        // 브라우저 가동 / 묵시적 Intent 사용
+        btnBrowser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                url = etUrl.getText().toString().trim();
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url)); // 묵시적 intent
+                startActivity(intent);
             }
         });
 
