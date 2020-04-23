@@ -4,9 +4,18 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /* HTTP 요청하기
    - 메니페스트 설정 하기 : android.permission.INTERNET 권한
@@ -42,9 +51,81 @@ public class MainActivity extends AppCompatActivity {
         btnRequest = findViewById(R.id.btnWebView);
         btnClear = findViewById(R.id.btnBrowser);
 
+        // 버튼 클릭시 url 요청
+        btnRequest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final String urlStr = etUrl.getText().toString();
+                // Http request는 별도의 Thread로 돌려야 한다!!!!!!!!! 강조!!
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        request(urlStr);
+                    }
+                }).start();
+
+            }
+        });
+
+        // url 지우기
+        btnClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tvResult.setText(""); // 내용 지우기
+            }
+        });
 
 
     } // onCreate()
+
+    public void request(String urlStr) {
+        final StringBuilder sb = new StringBuilder();
+
+        BufferedReader br = null;
+        HttpURLConnection conn = null;
+
+        try {
+            URL url = new URL(urlStr);
+            conn = (HttpURLConnection)url.openConnection();
+            if (conn != null) {
+                conn.setConnectTimeout(5000);  // connect가 수립되는 시간 (timeout 시간 설정) --> 경과하면 SocketTimeoutException 발생
+                conn.setUseCaches(false); // 캐시 사용 안함
+                conn.setRequestMethod("GET"); // GET 방식으로 request
+
+                conn.setDoInput(true); // URLConnection을 입력으로 사용 (true) , (false) -> 출력용
+                Log.d("myapp", "1" + conn.getResponseCode());
+                int responseCode = conn.getResponseCode(); // responseCode 받아오기 성공하면 200
+                Log.d("myapp", "1" + responseCode);
+                if (responseCode == HttpURLConnection.HTTP_OK) { // 200 HTTP_OK
+                    br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    String line = null;
+                    while (true) {
+                        line = br.readLine();
+                        if (line == null) break;
+                        sb.append(line + "\n");
+                    } // while
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (br != null) br.close();
+                if (conn != null) conn.disconnect();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                tvResult.setText("응답결과 : " + sb.toString());
+            }
+        });
+
+
+    } // request()
 
 
 } // MainActivity
