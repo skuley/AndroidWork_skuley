@@ -184,7 +184,7 @@ public class Main3Activity extends AppCompatActivity {
                 String subwayId = rowElement.getElementsByTagName("subwayId").item(0).getChildNodes().item(0).getNodeValue().trim();
                 String subwayNm = rowElement.getElementsByTagName("subwayNm").item(0).getChildNodes().item(0).getNodeValue().trim();
 
-                System.out.printf("%d: %s역 %s %s\n", i + 1, statnNm, subwayId, subwayNm);
+                
 
             } // for
 
@@ -221,7 +221,7 @@ public class Main3Activity extends AppCompatActivity {
             handler.post(new Runnable() {
                 @Override
                 public void run() {
-                    tvResult.setText();
+                    tvResult.setText("");
                 }
             });
 

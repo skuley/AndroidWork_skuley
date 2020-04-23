@@ -45,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // layout에서 id값이 지정된 View들을 Activity에서 이벤트 처리를 하기 위해 처리 해준다
+        // aka 등장인물 (주인공들)
         etUrl = findViewById(R.id.etUrl);
         tvResult = findViewById(R.id.tvResult);
 
@@ -62,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
                     public void run() {
                         request(urlStr);
                     }
-                }).start();
+                }).start(); // 쓰레드를 만들면 마지막에 .start()를 호출시켜 쓰레드가 돌아가게 해준다.
 
             }
         });
