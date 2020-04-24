@@ -5,10 +5,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.hardware.Camera;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Surface;
 import android.view.SurfaceHolder;
@@ -50,7 +55,6 @@ public class Main2Activity extends AppCompatActivity {
 
     CameraSurfaceView cameraSurfaceView;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,12 +77,46 @@ public class Main2Activity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO
+                takePicture();
             }
         });
 
 
     } // onCreate()
+
+    // 사진 촬영
+    // 캡쳐한 이미지 데이터 --> data
+    public void takePicture(){
+        cameraSurfaceView.capture(new Camera.PictureCallback() {
+            // 사진 찍힐때 호출되는 콜백
+            // data : 전달받은 이미지 byte 배열
+            @Override
+            public void onPictureTaken(byte[] data, Camera camera) {
+                // byte 배열을 -> BitMap 객체로 만들기
+                Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+
+                // 미디어 앨범에 추가, MediaStore.Images.Media 사용
+                String outUriStr = MediaStore.Images.Media.insertImage(
+                        getContentResolver(), // ContentResolver 객체
+                        bitmap, // 캡쳐하여 만들어진 Bitmap 객체
+                        "Captured Image", // 비트맵 제목
+                        "Captured Image using Camera" // 비트맵 내용
+                );
+
+                if(outUriStr == null){
+                    Log.d("myapp", "이미지 저장 실패, Image Insert Failure");
+                    return;
+                } else{
+                    Uri outUri = Uri.parse(outUriStr);
+                    sendBroadcast(new Intent(
+                            Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, outUri));
+                } // else
+                camera.startPreview(); // 촬영후 프리뷰 다시 재개 (사진 찍는 순간 프리뷰 끊어진다)
+            } // onPictureTaken
+        });
+    } // takePicture()
+
+
 
     // SurfaceView 상속 + SurfaceHolder.Callback 콜백 구현
     private class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Callback{
