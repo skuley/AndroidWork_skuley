@@ -75,7 +75,7 @@ public class Main4Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 double lat = Double.parseDouble(etLatitude.getText().toString());
-                double lng = Double.parseDouble(etLatitude.getText().toString());
+                double lng = Double.parseDouble(etLongitude.getText().toString());
 
                 LatLng curPoint = new LatLng(lat, lng); // 구글맵에 좌표 담는 객체
                 MarkerOptions markerOptions = new MarkerOptions()
@@ -89,14 +89,11 @@ public class Main4Activity extends AppCompatActivity {
             }
         });
 
-
-
-
     } // onCreate()
 
     public void startLocationService(){
         double lat = Double.parseDouble(etLatitude.getText().toString());
-        double lng = Double.parseDouble(etLatitude.getText().toString());
+        double lng = Double.parseDouble(etLongitude.getText().toString());
 
         LatLng curPoint = new LatLng(lat, lng); // 구글맵에 좌표 담는 객체
         // TODO 나중에 newLatLngZoom() 메소드 다르게 써보기
