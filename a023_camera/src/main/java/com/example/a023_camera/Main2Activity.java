@@ -237,6 +237,7 @@ public class Main2Activity extends AppCompatActivity {
                 Log.d("myapp", result);
                 break;
         }
+        
 
     } // onRequest()
 
